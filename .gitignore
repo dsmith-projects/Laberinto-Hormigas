@@ -1,0 +1,6 @@
+#Archivos que ignorar:
+
+.dep.inc
+build/
+dist/
+nbproject/
