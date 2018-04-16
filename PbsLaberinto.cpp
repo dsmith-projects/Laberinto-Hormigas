@@ -19,8 +19,16 @@
  * Simple C++ Test Suite
  */
 
-void testLaberinto(int cantidadVrts, double probabilidadAdy);() {
-    std::cout << "newsimpletest test 1" << std::endl;
+void testLaberinto(int cantidadVrts, double probabilidadAdy) {
+    Laberinto laberinto(10,0.3);
+    int totalAdy = laberinto.obtTotAdy();
+    int totalVrts = laberinto.obtTotVrt();
+    int maxAdy = totalVrts*(totalVrts-1);
+    if(totalVrts != cantidadVrts) 
+        std::cout << "Falló el constructor estándar" << std::endl;
+    if(totalAdy > maxAdy)
+        std::cout << "Falló el constructor estándar" << std::endl;
+
 }
 
 void test2() {
