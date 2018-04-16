@@ -41,11 +41,12 @@ void ListaOrdenada::agregar(int nPos) {
     if(inicio == nullptr){//Se agrega el primer elemento a *this
         inicio = shared_ptr<Nodo>(new Nodo(nPos));
         rsl = true;
+        cntAdy++;
     } else if (inicio->pos > nPos){//Insercion antes del inicio
         p = shared_ptr<Nodo>(new Nodo(nPos));
         p->sgt = inicio;
         inicio = p; //se cambia el inicio
-        rsl = true;
+        cntAdy++;
     } else {
         p = inicio;
         
@@ -70,6 +71,7 @@ void ListaOrdenada::agregar(int nPos) {
            p = ant->sgt;//p podria ser null o cero
            ant->sgt = shared_ptr<Nodo>(new Nodo(nPos));
            ant->sgt->sgt = p;
+           cntAdy++;
         }
     }
 }
@@ -113,10 +115,11 @@ string ListaOrdenada::toString() {
 int* ListaOrdenada::adyacencias() {
     shared_ptr<Nodo> p = inicio;
     int* arreglo;
+    arreglo = new int[cntAdy];
     int indice = 0; //Indice del arreglo
     
     if(p == nullptr){
-        arreglo = nullptr;
+        arreglo = nullptr; //Puede causar errores en el futuro
     }
     
     while (p != nullptr){
@@ -125,7 +128,7 @@ int* ListaOrdenada::adyacencias() {
         p = p->sgt;
     }
     
-    return arreglo;
+    return arreglo;//Fuga de memoria
 }
 
 int ListaOrdenada::cantidadAdy() {
