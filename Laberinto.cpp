@@ -27,6 +27,11 @@ Laberinto::~Laberinto() {
 
 /* MÉTODOS OBSERVADORES BÁSICOS */
 bool Laberinto::xstVrt(int idVrt) const {
+    bool rsl = false;
+    if(0 <=idVrt < cntVrts)
+        rsl = true;
+    
+    return rsl;
 }
 
 bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
