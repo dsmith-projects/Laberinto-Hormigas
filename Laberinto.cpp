@@ -47,32 +47,45 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
     }    
 }
 
-Laberinto::Laberinto(ifstream& archivo){
-    int pe;
-    ifstream archivoEnterosEntrada("laberintop.txt", ios::in);
-    char finLinea = ' ';
 
-    if (!archivoEnterosEntrada) { // operador ! sobrecargado
-        cerr << "No se pudo abrir el archivo de entrada" << endl;
-    }
-
-    archivoEnterosEntrada >> pe;
-    cout << pe << endl;
+Laberinto::Laberinto(ifstream& archivo){       
+    int flujoSalida;
+    char charFinLinea = ' ';
+    //ifstream archivo("Laberintop.txt", ios::in);
     
-    // salta a la siguiente para leer el primer número de la línea #2
-    archivoEnterosEntrada >> pe;
-    while (!archivoEnterosEntrada.eof()) {
-        while (!archivoEnterosEntrada.eof()&&(finLinea != 10)) { // 10 ascii de fin de línea
-            cout << pe << ' ';
-            archivoEnterosEntrada >> pe;
-            archivoEnterosEntrada.get(); // consume un blanco
-            finLinea = archivoEnterosEntrada.peek(); // intenta leer fin de línea
+    
+    //Lee la primera linea: cantidad de nodos. Linea #1
+    archivo >> flujoSalida;
+    cntVrts = flujoSalida; // Guardo el numero de nodos de la primera linea en la variable cantNodos
+    //Lee la siguiente linea. Linea #2
+    
+    arregloAdys = new Adyacencia[cntVrts + (cntVrts + 1 ) / 2];
+    arregloVrts = new Vertice[cntVrts];
+    int contador = 0;
+    
+    archivo >> flujoSalida; //Consumio la linea 2. Leo el 6
+    //cout << "Que es " << flujoSalida << endl;
+    while(!archivo.eof()){//Mientras no se llegue al fin del archivo de texto
+        ListaOrdenada lista;
+         
+        while(!archivo.eof() && charFinLinea != 10){ //Mientras no se llegue al fin del archivo de texto ni al fin de linea (En ASCII el 10 representa el simbolo de fin de linea)
+            lista.agregar(flujoSalida);
+            
+            archivo >> flujoSalida; //Extrae un numero de la lista ordenada de adyacencias
+            archivo.get(); // Avanza sobre un espacio en blanco. Lo consume y se mueve al siguiente flujo de caracteres
+            charFinLinea = archivo.peek(); // revisa si el siguiente caracter es el fin de linea
         }
-        if (!archivoEnterosEntrada.eof())
-            cout << pe << endl;
-        archivoEnterosEntrada >> pe;
-        archivoEnterosEntrada.get();
-        finLinea = archivoEnterosEntrada.peek();
+        if(!archivo.eof()){//Si aun tiene caracteres el archivo 
+            lista.agregar(flujoSalida);
+        }
+        archivo >> flujoSalida; //Lee la siguiente linea del archivo. Linea #4 en adelante por estar dentro del ciclo del while
+        archivo.get(); // Avanza sobre un espacio en blanco. Lo consume y se mueve al siguiente flujo de caracteres
+        charFinLinea = archivo.peek(); // revisa si el siguiente caracter es el fin de linea
+        
+        arregloVrts[contador].lstAdy = lista;
+        string x = arregloVrts[contador].lstAdy.toString();
+        cout << x << endl;
+        contador++;
     }
 }
 
@@ -93,14 +106,14 @@ bool Laberinto::xstVrt(int idVrt) const {
 
 bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
     /*
-     * bool rsl;
+    bool rsl;
     int indice = obtIndiceAdy(idVrtO, idVrtD);
     if (arregloAdys[indice] == 1){
         rsl = true;
     }
     
     return rsl;
-     */
+    */
 }
 
 int Laberinto::obtIdVrtInicial() const {
