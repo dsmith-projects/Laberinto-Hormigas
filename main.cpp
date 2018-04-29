@@ -21,12 +21,20 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
+    /*
     ifstream archivoEntrada;
     Laberinto laberinto(archivoEntrada);
     Simulador simulador(laberinto);
     int cntAdys = laberinto.obtCntAdy(0);
     int adyacencias[cntAdys];
     laberinto.obtIdVrtAdys(0, adyacencias);
+     */
+    ifstream archivo("laberintop.txt", ios::in);
+    if(!archivo){
+        cerr << "No se pudo abrir el archivo de entrada" << endl;
+        return 1;
+    }
+    Laberinto laberinto(archivo);
+    //Laberinto laberinto2(10,0.3);
     return 0;
 }
-
