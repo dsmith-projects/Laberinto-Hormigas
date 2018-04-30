@@ -32,16 +32,80 @@ void testLaberinto() {
 
 }
 
-void testLaberinto2() {
+void testLaberinto2() { 
+    Laberinto laberintoP("laberintop.txt");
+    Laberinto laberintoM("laberintom.txt");
+    int laberintoPVrt = laberintoP.obtTotVrt();
+    int laberintoMVrt = laberintoM.obtTotVrt();
+    if((laberintoPVrt != 10) || (laberintoPVrt != 50)){
+        std::cout << "Fallo el constructor con archivos en cuanto a la cantidad de vertices" << std::endl;
+    }
     
-    //Laberinto laberintoP("laberintop.txt");
-    //Laberinto laberintoM("laberintom.txt");
-    //int laberintoPVrt = laberintoP.obtTotVrt();
-    //int laberintoMVrt = laberintoM.obtTotVrt();
-    //if((laberintoPVrt != 10) || (laberintoPVrt != 50))
-    //std::cout << "Fallo el constructor con archivos en cuanto a la cantidad de vertices" << std::endl;
-    //std::cout << "Falló el constructor con archivos en cuanto a las adyacencias de cada vertice" << std::endl;
+    int flujoSalida;
+    char charFinLinea = ' '; 
+    ifstream archivo("laberintop.txt", ios::in);
+    if(!archivo){
+        cerr << "No se pudo abrir el archivo de entrada" << endl;
+    }
     
+    archivo >> flujoSalida;
+    int contador = 0;
+    
+    //Linea #2   
+    archivo >> flujoSalida; 
+    while(!archivo.eof()){ 
+        while(!archivo.eof() && charFinLinea != 10){ 
+            contador++;
+            archivo >> flujoSalida;
+            archivo.get(); 
+            charFinLinea = archivo.peek(); 
+        }
+        
+        if(!archivo.eof())
+            contador++;
+        
+        archivo >> flujoSalida; 
+        archivo.get(); 
+        charFinLinea = archivo.peek();                 
+    }
+    
+    if(archivo.eof())
+        contador++;
+    
+    if(laberintoP.obtTotAdy() != contador)
+        std::cout << "Fallo el constructor con archivos en cuanto a la cantidad de adyacencias" << std::endl;
+    
+    archivo("laberintom.txt", ios::in);
+    if(!archivo){
+        cerr << "No se pudo abrir el archivo de entrada" << endl;
+    }
+    
+    archivo >> flujoSalida;
+    int contador = 0;
+    
+    //Linea #2   
+    archivo >> flujoSalida; 
+    while(!archivo.eof()){ 
+        while(!archivo.eof() && charFinLinea != 10){ 
+            contador++;
+            archivo >> flujoSalida;
+            archivo.get(); 
+            charFinLinea = archivo.peek(); 
+        }
+        
+        if(!archivo.eof())
+            contador++;
+        
+        archivo >> flujoSalida; 
+        archivo.get(); 
+        charFinLinea = archivo.peek();                 
+    }
+    
+    if(archivo.eof())
+        contador++;
+    
+    if(laberintoM.obtTotAdy() != contador)
+        std::cout << "Fallo el constructor con archivos en cuanto a la cantidad de adyacencias" << std::endl;    
 }
 
 void testLaberinto3() {
