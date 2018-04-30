@@ -107,16 +107,21 @@ bool Laberinto::xstVrt(int idVrt) const {
     return rsl;
 }
 
-bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
-    /*
-    bool rsl;
-    int indice = obtIndiceAdy(idVrtO, idVrtD);
-    if (arregloAdys[indice] != 0){
-        rsl = true;
-    }
-    
-    return rsl;
-    */
+bool Laberinto::xstAdy(int idNdO, int idVrtD) const {
+    if((0 <= idNdO < cntVrts) && (0 <= idVrtD < cntVrts)){
+        bool rsl;
+        int* x = arregloVrts[idNdO].lstAdy.adyacencias();
+        int contador = 0;
+        
+        while(contador < (cntVrts-1)){
+            if(x[contador] == idVrtD){
+                rsl = true;
+                contador = cntVrts;
+            }
+            contador++;
+        }
+        return rsl;
+    }   
 }
 
 int Laberinto::obtIdVrtInicial() const {
@@ -136,6 +141,7 @@ Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
 }
 
 int Laberinto::obtCntAdy(int idVrt) const {
+    return arregloVrts[idVrt].lstAdy.cantidadAdy();
 }
 
 int Laberinto::obtTotAdy() const {
