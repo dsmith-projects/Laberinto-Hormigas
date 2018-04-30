@@ -26,13 +26,6 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
         int actual = 0;
         int nRandom;
         arregloVrts = new Vertice[cntVrts];
-        
-        while(contador < cntVrts){
-            contador++;
-        }
-        
-        contador = 0;
-        
         arregloAdys = new Adyacencia[cntVrts * (cntVrts + 1) / 2];
         
         srand (time(NULL));
@@ -42,6 +35,7 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
                 nRandom = rand() % 99 + 1;
                 cout << actual << " " << nRandom << endl;
                 actual++;
+                contador++;
             }
         }
     }    
@@ -50,49 +44,58 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
 
 Laberinto::Laberinto(ifstream& archivo){       
     int flujoSalida;
-    char charFinLinea = ' ';
-    //ifstream archivo("Laberintop.txt", ios::in);
+    char charFinLinea = ' ';  
     
-    
-    //Lee la primera linea: cantidad de nodos. Linea #1
+    //Linea #1
     archivo >> flujoSalida;
-    cntVrts = flujoSalida; // Guardo el numero de nodos de la primera linea en la variable cantNodos
-    //Lee la siguiente linea. Linea #2
-    
-    arregloAdys = new Adyacencia[cntVrts + (cntVrts + 1 ) / 2];
+    cntVrts = flujoSalida;  
+    arregloAdys = new Adyacencia[cntVrts * (cntVrts + 1 ) / 2];
     arregloVrts = new Vertice[cntVrts];
     int contador = 0;
+    idVrtInicial = 0;
+    idVrtFinal = cntVrts - 1;
     
-    archivo >> flujoSalida; //Consumio la linea 2. Leo el 6
-    //cout << "Que es " << flujoSalida << endl;
-    while(!archivo.eof()){//Mientras no se llegue al fin del archivo de texto
+    //Linea #2   
+    archivo >> flujoSalida; 
+    while(!archivo.eof()){
         ListaOrdenada lista;
          
-        while(!archivo.eof() && charFinLinea != 10){ //Mientras no se llegue al fin del archivo de texto ni al fin de linea (En ASCII el 10 representa el simbolo de fin de linea)
+        while(!archivo.eof() && charFinLinea != 10){ 
             lista.agregar(flujoSalida);
-            
-            archivo >> flujoSalida; //Extrae un numero de la lista ordenada de adyacencias
-            archivo.get(); // Avanza sobre un espacio en blanco. Lo consume y se mueve al siguiente flujo de caracteres
-            charFinLinea = archivo.peek(); // revisa si el siguiente caracter es el fin de linea
+            archivo >> flujoSalida;
+            archivo.get(); 
+            charFinLinea = archivo.peek(); 
         }
-        if(!archivo.eof()){//Si aun tiene caracteres el archivo 
-            lista.agregar(flujoSalida);
-        }
-        archivo >> flujoSalida; //Lee la siguiente linea del archivo. Linea #4 en adelante por estar dentro del ciclo del while
-        archivo.get(); // Avanza sobre un espacio en blanco. Lo consume y se mueve al siguiente flujo de caracteres
-        charFinLinea = archivo.peek(); // revisa si el siguiente caracter es el fin de linea
         
+        if(!archivo.eof())
+            lista.agregar(flujoSalida);
+        
+        archivo >> flujoSalida; 
+        archivo.get(); 
+        charFinLinea = archivo.peek();        
         arregloVrts[contador].lstAdy = lista;
-        string x = arregloVrts[contador].lstAdy.toString();
-        cout << x << endl;
+        contador++;
+    }
+    if(archivo.eof())
+        arregloVrts[contador-1].lstAdy.agregar(flujoSalida);
+}
+
+Laberinto::Laberinto(const Laberinto& orig){
+    cntVrts = orig.cntVrts;
+    idVrtInicial = orig.idVrtInicial;
+    idVrtFinal = orig.idVrtFinal;
+    arregloVrts = orig.arregloVrts;
+    arregloAdys = orig.arregloAdys;
+    int contador;
+    while(contador < cntVrts){
+        arregloVrts[contador].lstAdy = orig.arregloVrts[contador].lstAdy;
         contador++;
     }
 }
 
-Laberinto::Laberinto(const Laberinto& orig){
-}
-
 Laberinto::~Laberinto() {
+    delete[] arregloVrts;
+    delete[] arregloAdys;
 }
 
 /* MÉTODOS OBSERVADORES BÁSICOS */
@@ -108,7 +111,7 @@ bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
     /*
     bool rsl;
     int indice = obtIndiceAdy(idVrtO, idVrtD);
-    if (arregloAdys[indice] == 1){
+    if (arregloAdys[indice] != 0){
         rsl = true;
     }
     
@@ -124,8 +127,9 @@ int Laberinto::obtIdVrtFinal() const {
     return idVrtFinal;
 }
 
-void Laberinto::obtIdVrtAdys(int idVrt, int* rsp) const {
-
+void Laberinto::obtIdVrtAdys(int idVrt, int*& rsp) const {
+    if (0 <= idVrt < cntVrts)
+        rsp = arregloVrts[idVrt].lstAdy.adyacencias();
 }
 
 Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
@@ -141,10 +145,10 @@ int Laberinto::obtTotVrt() const {
     return cntVrts;
 }
 
-int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int* camino) const {
+int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
 }
 
-int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int* camino) const {
+int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int*& camino) const {
 }
 
 double Laberinto::sumaTotalFerormona() const {
