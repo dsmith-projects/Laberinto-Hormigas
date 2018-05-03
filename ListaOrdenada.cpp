@@ -31,6 +31,9 @@ ListaOrdenada::ListaOrdenada(const ListaOrdenada& orig){
 }
 
 ListaOrdenada::~ListaOrdenada() {
+    int *p = adyacencias();
+    if(p != 0)
+        delete[] p;
 }
 
 void ListaOrdenada::agregar(int nPos) {
@@ -41,12 +44,11 @@ void ListaOrdenada::agregar(int nPos) {
     if(inicio == nullptr){//Se agrega el primer elemento a *this
         inicio = shared_ptr<Nodo>(new Nodo(nPos));
         rsl = true;
-        cntAdy++;
     } else if (inicio->pos > nPos){//Insercion antes del inicio
         p = shared_ptr<Nodo>(new Nodo(nPos));
         p->sgt = inicio;
         inicio = p; //se cambia el inicio
-        cntAdy++;
+        rsl = true;
     } else {
         p = inicio;
         
@@ -71,7 +73,6 @@ void ListaOrdenada::agregar(int nPos) {
            p = ant->sgt;//p podria ser null o cero
            ant->sgt = shared_ptr<Nodo>(new Nodo(nPos));
            ant->sgt->sgt = p;
-           cntAdy++;
         }
     }
 }
