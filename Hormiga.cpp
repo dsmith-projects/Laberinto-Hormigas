@@ -59,6 +59,8 @@ string Hormiga::obtMemoria() {
 /* MÉTODOS MODIFICADORES */
 
 void Hormiga::salir(int idVrtInicial) {
+    idVrtActual = idVrtInicial;
+    haSalido = true;
 }
 
 void Hormiga::mover(const Laberinto& lbrt) {
