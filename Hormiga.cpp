@@ -25,6 +25,10 @@ Hormiga::~Hormiga() {
 /* OBSERVADORES */
 
 bool Hormiga::salio() {
+    bool rsp;
+    if(haSalido)
+        rsp = true;
+    return rsp;
 }
 
 bool Hormiga::regreso() {
