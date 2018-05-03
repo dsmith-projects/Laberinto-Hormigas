@@ -28,11 +28,11 @@ void testLaberinto() {
         std::cout << "Falló el constructor estándar" << std::endl;
     int totAdy = 0;
     
-    for(int contador = 0; contador = 55000; contador++){
+    for(int contador = 0; contador = 10; contador++){
         Laberinto laberinto2(50,0.3);
         totAdy = totAdy + laberinto2.obtTotAdy();
     }
-    double proTest = totAdy/55000;
+    double proTest = totAdy/100;
     double proMax = (0.3)*(50)*(50-1);
     double rsl = proMax - proTest;
     
@@ -42,26 +42,15 @@ void testLaberinto() {
 }
 
 void testLaberinto2() { 
-    /*Laberinto laberintoP("laberintop.txt");
-    Laberinto laberintoM("laberintom.txt");
-    //int laberintoPVrt = laberintoP.obtTotVrt();
-    //int laberintoMVrt = laberintoM.obtTotVrt();
-    if((laberintoPVrt != 10) || (laberintoPVrt != 50)){
-        std::cout << "Falló el constructor con archivos en cuanto a la cantidad de vertices" << std::endl;
-    }
-    
     int flujoSalida;
     char charFinLinea = ' '; 
     ifstream archivo("laberintop.txt", ios::in);
-    if(!archivo){
-        cerr << "No se pudo abrir el archivo de entrada" << endl;
-    }
     
     archivo >> flujoSalida;
     int contador = 0;
-    
+    int contadorVrts = 0;
     //Linea #2   
-    archivo >> flujoSalida; 
+    archivo >> flujoSalida;  
     while(!archivo.eof()){ 
         while(!archivo.eof() && charFinLinea != 10){ 
             contador++;
@@ -72,6 +61,7 @@ void testLaberinto2() {
         
         if(!archivo.eof())
             contador++;
+            contadorVrts++;
         
         archivo >> flujoSalida; 
         archivo.get(); 
@@ -81,16 +71,18 @@ void testLaberinto2() {
     if(archivo.eof())
         contador++;
     
-    if(laberintoP.obtTotAdy() != contador)
+    if(18 != (contador/2))
         std::cout << "Falló el constructor con archivos en cuanto a la cantidad de adyacencias" << std::endl;
+    if(contadorVrts != 10)
+        std::cout << "Falló el constructor con archivos en cuanto a la cantidad de vertices" << std::endl;
     
+    //LaberintoM
     ifstream archivo2("laberintom.txt", ios::in);
-    if(!archivo2){
-        cerr << "No se pudo abrir el archivo de entrada" << endl;
-    }
     
+    //Linea #1
     archivo2 >> flujoSalida;
     contador = 0;
+    contadorVrts = 0;
     
     //Linea #2   
     archivo2 >> flujoSalida; 
@@ -104,6 +96,7 @@ void testLaberinto2() {
         
         if(!archivo2.eof())
             contador++;
+            contadorVrts++;
         
         archivo2 >> flujoSalida; 
         archivo2.get(); 
@@ -113,9 +106,10 @@ void testLaberinto2() {
     if(archivo2.eof())
         contador++;
     
-    if(laberintoM.obtTotAdy() != contador)
-        std::cout << "Falló el constructor con archivos en cuanto a la cantidad de adyacencias" << std::endl;    
-*/
+    if(209 != (contador/2))
+        std::cout << "Falló el constructor con archivos en cuanto a la cantidad de adyacencias" << std::endl;   
+    if(contadorVrts != 50)
+        std::cout << "Falló el constructor con archivos en cuanto a la cantidad de vertices" << std::endl;    
 }
 
 void testLaberinto3() {
