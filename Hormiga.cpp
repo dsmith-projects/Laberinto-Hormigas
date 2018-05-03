@@ -12,28 +12,48 @@
  */
 
 #include "Hormiga.h"
+#include <sstream> 
+#include <iostream>
 
-Hormiga::Hormiga() {
+Hormiga::Hormiga(){
+    destino = 'F';
+    memoria = new int[5];
 }
 
 Hormiga::Hormiga(const Hormiga& orig) {
+    destino = orig.destino;
 }
 
 Hormiga::~Hormiga() {
+    delete[] memoria; 
 }
 
 /* OBSERVADORES */
 
 bool Hormiga::salio() {
+    bool rsp;
+    if(haSalido)
+        rsp = true;
+    return rsp;
 }
 
 bool Hormiga::regreso() {
 }
 
 char Hormiga::obtDestino() {
+    return destino;
 }
 
 string Hormiga::obtMemoria() {
+    stringstream fs;
+    fs << '['; 
+    for(int contador = 0; contador <= 4; contador++){
+        fs << memoria[contador];
+        if(contador != 4)
+            fs << ',';
+    }        
+    fs << ']';
+    return fs.str();
 }
 
 /* MÉTODOS MODIFICADORES */
