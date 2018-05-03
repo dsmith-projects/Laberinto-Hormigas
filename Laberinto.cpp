@@ -29,14 +29,21 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
         arregloAdys = new Adyacencia[cntVrts * (cntVrts + 1) / 2];
         
         srand (time(NULL));
+        //nRandom = rand() % 99 + 1;
         
-        while(actual != cntVrts){
-            while(contador != cntVrts){
+        while(actual < cntVrts){
+            while(contador < cntVrts){
                 nRandom = rand() % 99 + 1;
-                cout << actual << " " << nRandom << endl;
-                actual++;
+                if(contador > actual){
+                    if(nRandom >= (probabilidadAdy*100)){
+                        arregloVrts[contador].lstAdy.agregar(actual);
+                        arregloVrts[actual].lstAdy.agregar(contador);
+                    }
+                }
                 contador++;
             }
+            contador = 0;
+            actual++;
         }
     }    
 }
@@ -145,6 +152,12 @@ int Laberinto::obtCntAdy(int idVrt) const {
 }
 
 int Laberinto::obtTotAdy() const {
+    int rsp = 0;
+    int contador = 0;
+    for(int contador = 0; contador <= (cntVrts-1); contador++){
+        rsp = rsp + arregloVrts[contador].lstAdy.cantidadAdy();
+    }
+    return rsp/2;
 }
 
 int Laberinto::obtTotVrt() const {
@@ -161,11 +174,13 @@ double Laberinto::sumaTotalFerormona() const {
 }
 
 void Laberinto::asgIdVrtInicial(int idVrtInicialN) {
-    idVrtInicial = idVrtInicialN;
+    if(0 <= idVrtInicialN < cntVrts)
+        idVrtInicial = idVrtInicialN;
 }
 
 void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
-    idVrtFinal = idVrtFinalN;
+    if(0 <= idVrtFinalN < cntVrts)
+        idVrtFinal = idVrtFinalN;
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
