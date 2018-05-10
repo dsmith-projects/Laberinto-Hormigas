@@ -35,7 +35,6 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
                 nRandom = rand() % 99 + 1;
                 if(contador > actual){
                     if(nRandom <= (probabilidadAdy*100)){
-                        //cout << nRandom << " " << actual << contador << endl;
                         arregloVrts[contador].lstAdy.agregar(actual);
                         arregloVrts[actual].lstAdy.agregar(contador);
                     }
@@ -145,6 +144,8 @@ void Laberinto::obtIdVrtAdys(int idVrt, int*& rsp) const {
 }
 
 Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
+    int indice = obtIndiceAdy(idVrtO, idVrtD);
+    return arregloAdys[indice]; 
 }
 
 int Laberinto::obtCntAdy(int idVrt) const {
@@ -165,12 +166,24 @@ int Laberinto::obtTotVrt() const {
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
+    int rsp;
+    return rsp; 
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int*& camino) const {
+    int rsp;
+    return rsp; 
 }
 
 double Laberinto::sumaTotalFerormona() const {
+    double rsp;
+    int contador = 0;
+    int max = cntVrts * (cntVrts + 1) / 2;
+    while(contador <= max){
+        rsp = rsp + arregloAdys[contador].obtCntFerormona();
+        contador++;
+    }
+    return rsp;
 }
 
 void Laberinto::asgIdVrtInicial(int idVrtInicialN) {
@@ -184,9 +197,22 @@ void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
+    int indice = obtIndiceAdy(idVrtO, idVrtD);
+    arregloAdys[indice] = ady;
 }
 
 void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
+    int contador = 0;
+    int max = cntVrts * (cntVrts + 1) / 2;
+    while(contador <= max){
+        double ferormona = arregloAdys[contador].obtCntFerormona();
+        if((ferormona != 0) && (ferormona <= decrFerormona)){
+            arregloAdys[contador].asgCntFerormona(0);
+        }else if((ferormona != 0) && (ferormona > decrFerormona)){
+            arregloAdys[contador].asgCntFerormona(ferormona - decrFerormona);
+        }
+        contador++;
+    }
 }
 
 void Laberinto::actualizarValoracionAdys() {
