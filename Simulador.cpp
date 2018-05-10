@@ -24,11 +24,15 @@ Simulador::~Simulador() {
 }
 
 void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double decrFerormona, double probMovimientoAzar) {
-    cantidadHormigas = cntHrm;
-    this->decrFerormona = decrFerormona;
-    this->probMovimientoAzar = probMovimientoAzar;
+    if((laberinto.xstVrt(idVrtInicial)) && (laberinto.xstVrt(idVrtFinal))){
+        cantidadHormigas = cntHrm;
+        this->decrFerormona = decrFerormona;
+        this->probMovimientoAzar = probMovimientoAzar;
+    }
 }
 
 void Simulador::ejecutar(int p) {
-
+    if(p >= 1){
+    
+    }
 }
