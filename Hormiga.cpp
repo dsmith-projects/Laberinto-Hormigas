@@ -19,18 +19,19 @@ int Hormiga::cntVrts = 0; // inicialización de variable static pública
 
 Hormiga::Hormiga(){
     destino = 'F';
-    int size = 10;
-    memoria = new int[size];
-    int contador = 0;
-    while(contador <= (size - 1)){
-        memoria[contador] = -1;
-        contador++;
-    } 
 }
 
 Hormiga::Hormiga(const Hormiga& orig) {
-    destino = orig.destino;
+    cntVrts = orig.cntVrts;
+    idVrtActual = orig.idVrtActual;
     memoria = orig.memoria;
+    haSalido = orig.haSalido;
+    haRegresado = orig.haRegresado;
+    destino = orig.destino;
+    enRetroceso = orig.haRegresado;
+    longitudSolucion = orig.longitudSolucion;
+    deltaFerormona = orig.deltaFerormona;
+    ultMemo = orig.ultMemo;
 }
 
 Hormiga::~Hormiga() {
@@ -41,14 +42,14 @@ Hormiga::~Hormiga() {
 
 bool Hormiga::salio() {
     bool rsp;
-    if(memoria[1] != -1)
+    if(cntVrts > 0)
         rsp = true;
     return rsp;
 }
 
 bool Hormiga::regreso() {
     bool rsp;
-    if((destino == 'I') && (memoria[0] ==idVrtActual)){
+    if((destino == 'I') && (memoria[0] == idVrtActual)){
         rsp = true;
     }
     return rsp;
@@ -59,7 +60,7 @@ char Hormiga::obtDestino() {
 }
 
 string Hormiga::obtMemoria() {
-    int size = 10;
+    int size = cntVrts * (cntVrts + 1) / 2;
     stringstream fs;
     fs << '['; 
     for(int contador = 0; contador < size; contador++){
@@ -76,11 +77,30 @@ string Hormiga::obtMemoria() {
 void Hormiga::salir(int idVrtInicial) {
     idVrtActual = idVrtInicial;
     haSalido = true;
-    memoria[0] = idVrtInicial;
+    cntVrts++;
 }
 
 void Hormiga::mover(const Laberinto& lbrt) {
+    if(cntVrts == 0){
+        cntVrts = lbrt.obtTotVrt();
+        //Crea la memoria
+        int size = cntVrts * (cntVrts + 1) / 2;
+        memoria = new int[size];
+        int contador = 0;
+        while(contador <= (size - 1)){
+            memoria[contador] = -1;
+            contador++;
+        }
+    }
     
+    if((haSalido) && (!haRegresado)){
+        if(destino == 'F'){
+            ultMemo = idVrtActual;
+            memoria[cntVrts] == idVrtActual;
+        }else{
+        
+        }  
+    }
 }
 
 /* MÉTODOS PRIVADOS SUGERIDOS */
@@ -88,6 +108,7 @@ void Hormiga::mover(const Laberinto& lbrt) {
 void Hormiga::filtraVrtsPosibles(int* vrtsPosibles) {
     int contador;
     int actual;
+    
 }
 
 int Hormiga::retroceder() {
