@@ -15,13 +15,22 @@
 #include <sstream> 
 #include <iostream>
 
+int Hormiga::cntVrts = 0; // inicialización de variable static pública
+
 Hormiga::Hormiga(){
     destino = 'F';
-    memoria = new int[5];
+    int size = 10;
+    memoria = new int[size];
+    int contador = 0;
+    while(contador <= (size - 1)){
+        memoria[contador] = -1;
+        contador++;
+    } 
 }
 
 Hormiga::Hormiga(const Hormiga& orig) {
     destino = orig.destino;
+    memoria = orig.memoria;
 }
 
 Hormiga::~Hormiga() {
@@ -32,12 +41,17 @@ Hormiga::~Hormiga() {
 
 bool Hormiga::salio() {
     bool rsp;
-    if(haSalido)
+    if(memoria[1] != -1)
         rsp = true;
     return rsp;
 }
 
 bool Hormiga::regreso() {
+    bool rsp;
+    if((destino == 'I') && (memoria[0] ==idVrtActual)){
+        rsp = true;
+    }
+    return rsp;
 }
 
 char Hormiga::obtDestino() {
@@ -45,11 +59,12 @@ char Hormiga::obtDestino() {
 }
 
 string Hormiga::obtMemoria() {
+    int size = 10;
     stringstream fs;
     fs << '['; 
-    for(int contador = 0; contador <= 4; contador++){
+    for(int contador = 0; contador < size; contador++){
         fs << memoria[contador];
-        if(contador != 4)
+        if(contador != (size - 1))
             fs << ',';
     }        
     fs << ']';
@@ -61,14 +76,18 @@ string Hormiga::obtMemoria() {
 void Hormiga::salir(int idVrtInicial) {
     idVrtActual = idVrtInicial;
     haSalido = true;
+    memoria[0] = idVrtInicial;
 }
 
 void Hormiga::mover(const Laberinto& lbrt) {
+    
 }
 
 /* MÉTODOS PRIVADOS SUGERIDOS */
 
 void Hormiga::filtraVrtsPosibles(int* vrtsPosibles) {
+    int contador;
+    int actual;
 }
 
 int Hormiga::retroceder() {
@@ -78,6 +97,14 @@ int Hormiga::seleccionaAdyMasCargada(const Laberinto& lbrt) {
 }
 
 bool Hormiga::estaEnMemoria(int idVrt) {
+    bool rsp;
+    int size = 10;
+    for(int contador = 0; (contador < size) && (!rsp) ; contador++){
+        if(memoria[contador] == idVrt){
+            rsp = true;
+        }
+    }
+    return rsp;
 }
 
 void Hormiga::pushMemo() {
