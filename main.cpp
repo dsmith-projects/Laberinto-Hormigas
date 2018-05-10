@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   main.cpp
  * Author: alan.calderon
@@ -36,12 +30,10 @@ int main(int argc, char** argv) {
         cerr << "No se pudo abrir el archivo de entrada" << endl;
         return 1;
     }
-    Laberinto laberinto(archivo);
-    Laberinto laberinto2(10,0.3);
-    int x = laberinto2.obtTotAdy();
-    cout << x << endl;
+    //Laberinto laberinto(archivo);
+    //Laberinto laberinto2(10,0.3);
     Hormiga hormigaTest;
-    string x2 = hormigaTest.obtMemoria();
-    cout << x2 << endl;
+    string x = hormigaTest.obtMemoria();
+    cout << x << endl;
     return 0;
 }
